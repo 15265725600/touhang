@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>投行365</title>
+    <link rel="stylesheet" href="../assets/css/amazeui.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/LCalendar.css" />
+  </head>
+
+  <body>
+    <div class="mw-container">
+      <div class="top-content">
+        <div class="my-top">
+          <div class="log-header">
+            <a href="javascript:history.back()" class="arrow-left"></a>
+            <h5 class="title">我的钱包</h5>
+          </div>
+        </div>
+        <div class="my-center">
+          <div class="name">金币</div>
+          <div class="price">0</div>
+        </div>
+        <div class="my-bottom">
+          <a href="recharge.html" class="recharge item">充值</a>
+          <a href="withdrawals.html" class="withdrawals item">提现</a>
+        </div>
+      </div>
+      <div class="detaild">
+        <div class="title">明细</div>
+        <div class="content">
+          <div class="classify">
+            <div class="name" id="allCly">全部</div>
+            <ul class="classify-list">
+              <div class="tip"></div>
+              <li class="list-item" data="0">全部</li>
+              <li class="list-item" data="1">收入</li>
+              <li class="list-item" data="2">支出</li>
+            </ul>
+          </div>
+          <div class="time">
+            <input type="text" class="docs-date start" value="" readonly="readonly" />
+            <span>至</span>
+            <input type="text" class="docs-date1 end" value="" readonly="readonly" />
+          </div>
+          <div class="submit">确定</div>
+        </div>
+      </div>
+      <div class="details-wrapper">
+        <ul class="detail-list">
+          <script type="text/html" id="template">
+            {{each listItems as item index}}
+            <li class="list-item">
+              <div class="name">{{item.content}}</div>
+              <div class="time">{{item.regdate}}</div>
+              {{if item.amount > 0}}
+              <div class="price add">{{item.amount}}金币</div>
+              {{else}}
+              <div class="price reduce">{{item.amount}}金币</div>
+              {{/if}}
+            </li>
+            {{/each}}
+          </script>
+        </ul>
+      </div>
+
+    </div>
+  </body>
+  <script type="text/javascript" src="../assets/js/jquery.min.js"></script>
+  <script type="text/javascript" src="../assets/js/amazeui.min.js"></script>
+  <script src="../assets/js/template.js"></script>
+  <script type="text/javascript" src="../assets/js/common.js"></script>
+  <script type="text/javascript" src="../assets/js/LCalendar.js"></script>
+
+  <script>
+    $(function() {
+
+      var token = getCookie('token');
+      var start_time = "";
+      var end_time = "";
+      var data = 0;
+
+       //获取当前年月日
+      var d = new Date();
+      var str = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+      $('.start').val(str);
+      $('.end').val(getNextMonth(str));
+      function getNextMonth(date) {
+        var arr = date.split('-');
+        var year = arr[0]; //获取当前日期的年份
+        var month = arr[1]; //获取当前日期的月份
+        var day = arr[2]; //获取当前日期的日
+        var days = new Date(year, month, 0);
+        days = days.getDate(); //获取当前日期中的月的天数
+        var year2 = year;
+        var month2 = parseInt(month) + 1;
+        if(month2 == 13) {
+          year2 = parseInt(year2) + 1;
+          month2 = 1;
+        }
+        var day2 = day;
+        var days2 = new Date(year2, month2, 0);
+        days2 = days2.getDate();
+        if(day2 > days2) {
+          day2 = days2;
+        }
+        if(month2 < 10) {
+          month2 = '0' + month2;
+        }
+
+        var t2 = year2 + '-' + month2 + '-' + day2;
+        return t2;
+      }
+
+      
+      //点击全部分类
+      $('#allCly').click(function() {
+        $(this).toggleClass('active');
+        if($(this).hasClass('active')) {
+          $('.classify-list').fadeIn(400);
+        } else {
+          $('.classify-list').fadeOut(400);
+        }
+
+      });
+      $('.classify-list li').click(function() {
+        data = $(this).attr('data');
+        $('#allCly').html($(this).html());
+        $('.classify-list').fadeOut(400);
+        record(data, start_time, end_time)
+      })
+
+      //选择开始时间
+      var calendar = new LCalendar();
+      calendar.init({
+        'trigger': '.docs-date', //标签id
+        'type': 'date', //date 调出日期选择 datetime 调出日期时间选择 time 调出时间选择 ym 调出年月选择,
+        'minDate': 2017 + '-' + 11 + '-' + 22, //最小日期
+        //      'maxDate': new Date().getFullYear() + 10 + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate() //最大日期
+      });
+      //选择结束时间
+      var calendar1 = new LCalendar();
+      calendar1.init({
+        'trigger': '.docs-date1', //标签id
+        'type': 'date', //date 调出日期选择 datetime 调出日期时间选择 time 调出时间选择 ym 调出年月选择,
+        'minDate': 2017 + '-' + 11 + '-' + 22, //最小日期
+        //      'maxDate': new Date().getFullYear() + 10 + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate() //最大日期
+      });
+
+      $('.submit').click(function() {
+        start_time = $('.start').val();
+        end_time = $('.end').val();
+        record(data, start_time, end_time);
+      })
+
+      //获取金额
+      var params = {
+        token: token
+      };
+      postAjax(reqUrl('client_get'), params, false, function(data) {
+        if(data.error_code == 200) {
+          window.location.href = preUrl('log/login.html?path=my/my.html');
+        } else if(data.success) {
+          $('.price').html(parseFloat(data.infor[0].feeaccount));
+        } else {
+          mask(data.msg);
+        }
+      });
+
+      record(0, '', '');
+
+      //获取消费记录
+      function record(keytype, time_start, time_end) {
+        var param = {
+          token: token,
+          keytype: keytype,
+          time_start: time_start,
+          time_end: time_end
+        }
+        postAjax(reqUrl('balance_list'), param, false, function(data) {
+          if(data.error_code == 200) {
+            window.location.href = preUrl('log/login.html?path=my/my-wallet.html');
+          } else if(data.success) {
+            var html = template('template', data.infor);
+            $('.detail-list').html(html)
+          } else {
+            mask(data.msg);
+          }
+        });
+      }
+
+    })
+  </script>
+
+</html>

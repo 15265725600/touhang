@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>投行365</title>
+    <link rel="stylesheet" href="../assets/css/amazeui.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+  </head>
+
+  <body>
+    <header data-am-widget="header" class="am-header header">
+      <a href="javascript:history.back()" class="arrow-left"></a>
+      <h1 class="am-header-title">确认充值</h1>
+    </header>
+    <div class="be-container">
+      <div class="title pay-title">
+        <div class="name">充值消费</div>
+        <div class="price">￥<i class="Price">200</i></div>
+      </div>
+      <div class="word">
+        <div class="count am-cf">
+          <span class="name">收款方</span>
+          <span class="weixin am-fr">投行365</span>
+        </div>
+      </div>
+      <div class="submit">立即充值</div>
+    </div>
+    
+  </body>
+  <script type="text/javascript" src="../assets/js/jquery.min.js"></script>
+  <script type="text/javascript" src="../assets/js/amazeui.min.js"></script>
+  <script type="text/javascript" src="../assets/js/picker.min.js"></script>
+  <script type="text/javascript" src="../assets/js/common.js"></script>
+
+  <script>
+   $(function(){
+     var price = GetQueryString('price');
+     var token = getCookie('token');
+     var para = window.location.search;
+     var id = GetQueryString('id')
+     
+     $('.Price').html(price);
+      $('.submit').click(function(){
+       var total_fee = price
+       var params = {
+         token: token,
+         paytype:3,
+         keytype:1,
+         keyid:0,
+         total_fee:total_fee
+       }
+       postAjax('http://www.zhongguoth365.com/plugins/OnlinePay/WeixinWeb/trade.php', params, false, function(data){
+         if(data.error_code == 200){
+           window.location.href = preUrl('log/login.html'+para+'&path=my/pay.html')
+         }else if(data.success){
+           if(id){
+             window.location.href = preUrl('my/module-details.html?id='+id);
+           }else{
+             alert('支付成功');
+           }
+         }else{
+           window.location.href = data.msg
+         }
+       })
+     })
+
+   })
+  </script>
+
+</html>

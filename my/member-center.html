@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html class="height">
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>投行365</title>
+    <link rel="stylesheet" href="../assets/css/amazeui.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+  </head>
+
+  <body class="height">
+    <header data-am-widget="header" class="am-header header">
+      <a href="javascript:history.back()" class="arrow-left"></a>
+      <h1 class="am-header-title">会员中心</h1>
+    </header>
+    <div class="mc-container">
+      <!--<div class="title">
+        会员星级说明
+      </div>
+      <div class="txt">
+        说明每个星级的区别与权益（后台添加）1-5个星级，说明每个星级的区别与权益（后台添加），1-5个星级，说明每个星级的区别与权益
+      </div>-->
+      <iframe src="" width="100%" height="100%" id="iframe"></iframe>
+    </div>
+
+  </body>
+  <script src="../assets/js/jquery.min.js"></script>
+  <script src="../assets/js/amazeui.min.js"></script>
+  <script src="../assets/js/common.js"></script>
+  <script>
+    $(function() {
+      iframe($('#iframe'), 'stars_content')
+    });
+  </script>
+
+</html>

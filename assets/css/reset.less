@@ -1,0 +1,381 @@
+/**
+ * Eric Meyer's Reset CSS v2.0 (http://meyerweb.com/eric/tools/css/reset/)
+ * http://cssreset.com
+ */
+
+
+/*公共颜色*/
+
+@line: #f1f1f1;
+@black: #0a0a0a;
+@gray: #b1b1b1; //灰色
+@lime: #686868; //石灰色
+@white: #ffffff;
+@orange: #ff8223;
+@pink: #f6f6f6;
+@red: #ff5a5a;
+@input-bg: #f2f2f2;
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video,
+input {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font-weight: normal;
+    vertical-align: baseline;
+}
+
+
+/* HTML5 display-role reset for older browsers */
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+menu,
+nav,
+section {
+    display: block;
+}
+
+body {
+    line-height: 1;
+    position: relative;
+    padding: 0;
+    margin: 0 auto;
+    max-width: 750px;
+    min-width: 320px;
+    background-color: #fff;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+blockquote,
+q {
+    quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+    content: none;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+
+/* custom */
+
+a {
+    color: #7e8c8d;
+    -webkit-backface-visibility: hidden;
+}
+
+li,
+ul {
+    list-style: none;
+}
+
+::-webkit-scrollbar {
+width: 5px;
+height: 5px;
+}
+
+::-webkit-scrollbar-track-piece {
+background-color: rgba(0, 0, 0, 0.2);
+-webkit-border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:vertical {
+height: 5px;
+background-color: rgba(125, 125, 125, 0.7);
+-webkit-border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:horizontal {
+width: 5px;
+background-color: rgba(125, 125, 125, 0.7);
+-webkit-border-radius: 6px;
+}
+.height {
+    width: 100%;
+    height: 100%;
+}
+
+
+/*美化表单*/
+
+@font-face {
+    font-family: base_icon;
+    src: url(../fonts/base.woff);
+}
+
+input.rt[type=radio],
+input.rt[type=checkbox] {
+    -webkit-appearance: none;
+    width: 15px;
+    height: 15px;
+    margin: 3px 0;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 15px;
+    outline: 0;
+    background-color: #fff;
+    border: 1px solid @orange;
+    border-radius: 2px;
+}
+
+input.rt[type=radio]:checked,
+input.rt[type=checkbox]:checked {
+    background-color: #fff;
+    border: 1px solid @orange;
+    color: #fff;
+    outline: none;
+    -webkit-appearance: none;
+    position: relative;
+    border-radius: 2px;
+}
+
+input.rt[type=radio]:checked:after,
+input.rt[type=checkbox]:checked:after {
+    content: "✓";
+    font-size: 24px;
+    font-family: base_icon;
+    font-weight: 700;
+    color: @orange;
+    position: absolute;
+    top: -3px;
+    left: -5px;
+}
+
+.clearfix:after {
+    content: "";
+    height: 0;
+    display: block;
+    overflow: hidden;
+    clear: both;
+    visibility: hidden;
+}
+
+.item-href {
+    display: block;
+}
+
+.line{
+    width: 100%;
+    height: 5px;
+    background-color: #f5f2f5;
+}
+/*单行省略*/
+ .ellipsis{
+     text-overflow: ellipsis;
+     overflow: hidden;
+     white-space: nowrap;
+ }
+ 
+/*//两行省略*/
+
+.two-truncate {
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+}
+
+//弹窗样式
+.layer {
+    box-sizing: border-box;
+    min-width: 100px;
+    max-width: 300px;
+    padding: 12px 20px;
+    text-align: center;
+    color: #fff;
+    background-color: rgba(0, 0, 0, .6);
+    position: fixed;
+    top: 40%;
+    left: 0;
+    z-index: 99999;
+    border-radius: 6px;
+    display: none;
+    font-size: 14px;
+}
+
+//公共头部
+.header {
+    background-color: @pink;
+    position: relative;
+    .am-header-title {
+        font-size: 18px;
+        color: @black;
+    }
+    .arrow-left {
+        position: absolute;
+        width: 10px;
+        height: 16px;
+        display: block;
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        margin-top:-8px;
+        background:url(../i/arrow-left.png) no-repeat center;
+        background-size: 10px 16px;
+    }
+}
+/*弹窗样式*/
+.alert-title{
+    color:#000;
+    font-size:16px;
+    padding:15px 0;
+    font-weight: 700;
+    
+}
+.alert-txt{
+    color:@lime;
+    font-size:15px;
+    line-height: 1.4;
+}
+.alert-btn{
+    color:#0a78de;
+    font-size:15px;
+    font-weight: 700;
+}
+
+/*侧边栏样式*/
+//.am-offcanvas-bar{
+//  position: fixed;
+//  top: 0;
+//  bottom: 0;
+//  left: 0;
+//  z-index: 1091;
+//  width: 100%;
+//  max-width: 100%;
+//  background: #333;
+//  overflow-y: auto;
+//  -webkit-overflow-scrolling: touch;
+//  -webkit-transition: -webkit-transform .3s ease-in-out;
+//  transition: -webkit-transform .3s ease-in-out;
+//  transition: transform .3s ease-in-out;
+//  transition: transform .3s ease-in-out,-webkit-transform .3s ease-in-out;
+//  -webkit-transform: translateX(-100%);
+//  -ms-transform: translateX(-100%);
+//  transform: translateX(-100%);
+//}
+
+
+
+
+
+
+
+
+
+
+
+//实现stick-footer布局
+//.stick{
+//  width:100%;
+//  height:100%;
+//  overflow: auto;
+//  .stick-wrapper{
+//      width: 100%;
+//      min-height: 100%;
+//      .wrapper-main{
+//          margin-top: 64px;
+//          padding-bottom: 64px;
+//      }
+//      .wrapper-bottom{
+//          position: relative;
+//          margin: -64px auto 0 auto;
+//          clear: both;
+//      }
+//  }
+//}

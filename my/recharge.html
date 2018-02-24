@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>投行365</title>
+    <link rel="stylesheet" href="../assets/css/amazeui.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+  </head>
+
+  <body>
+    <header data-am-widget="header" class="am-header header">
+      <a href="javascript:history.back()" class="arrow-left"></a>
+      <h1 class="am-header-title">充值</h1>
+    </header>
+    <div class="be-container">
+      <div class="word">
+        <textarea name="" rows="1" cols="" class="txt" placeholder="1元=1金币"></textarea>
+        <!--<p class="conversion">=充值金币数：<span>？金币</span></p>-->
+      </div>
+      <a href="javascript:;" class="item-href submit">去充值</a>
+    </div>
+    
+  </body>
+  <script type="text/javascript" src="../assets/js/jquery.min.js"></script>
+  <script type="text/javascript" src="../assets/js/amazeui.min.js"></script>
+  <script type="text/javascript" src="../assets/js/picker.min.js"></script>
+  <script type="text/javascript" src="../assets/js/common.js"></script>
+
+  <script>
+   $(function(){
+     $('.txt').focus();
+     var id = GetQueryString('id')
+     $('.submit').click(function(){
+       var price = $('.txt').val();
+       if(price == ''){
+         mask('请输入金额');
+         return false;
+       }else{
+         window.location.href = preUrl('my/pay.html?price='+ price+'&id='+id);
+       }
+     })
+   })
+  </script>
+
+</html>

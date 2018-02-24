@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>投行365</title>
+    <link rel="stylesheet" href="../assets/css/amazeui.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+  </head>
+
+  <body>
+    <header data-am-widget="header" class="am-header header">
+      <a href="javascript:history.back()" class="arrow-left"></a>
+      <h1 class="am-header-title">注册会员 </h1>
+    </header>
+    <div class="reg-container">
+      <ul class="reg-wrapper">
+        <li class="list-item am-cf">
+          <span class="name first"><!--<i class="star">*</i>-->头像</span>
+          <div class="avatar am-fr">
+            <img src="../assets/i/default-avatar.png" alt="" class="img" width="50" height="50" />
+            <input type="file" class="upload_img" accept="image/*" name="temp_file" />
+          </div>
+          <i class="arrow-right"></i>
+        </li>
+        <li class="list-item">
+          <span class="name" style="width: 30%;"><i class="star">*</i>姓名<span class="tip">(必填)</span></span>
+          <input type="text" class="txt" placeholder="填写姓名" id="name" />
+          <i class="arrow-right"></i>
+        </li>
+        <li class="list-item">
+          <span class="name"><i class="star">*</i>上传名片</span><span class="tip">(必填)</span>
+          <div class="upload-wrap">
+            <ul class="upload am-cf am-gallery" data-am-widget="gallery" data-am-gallery="{ pureview: true }">
+              <li class="upload-btn">
+                <img src="../assets/i/img-add.png" width="109" height="60">
+                <input type="file" class="j-file-cert cart_img1" name="temp_file" accept="image/*" data="2" />
+              </li>
+              <!--<li class="upload-btn">
+                <img src="../assets/i/img-add.png" width="109" height="60">
+                <input type="file" class="j-file-cert cart_img2" name="temp_file" accept="image/*" data="3" />
+              </li>-->
+            </ul>
+          </div>
+        </li>
+        <li class="list-item">
+          <a href="javascript:;" data-am-offcanvas="{target: '#doc-oc-demo1'}">
+            <span class="name" style="width: 40%;"><i class="star">*</i>业务专长<span class="tip">(必填)</span></span>
+            <input type="text" class="txt am-ellipsis" placeholder="填写专长" readonly="readonly" id="expertise" maxlength="300" style="width: 50%;"/>
+          </a>
+          <i class="arrow-right"></i>
+        </li>
+        <li class="list-item">
+          <a href="javascript:;" data-am-offcanvas="{target: '#doc-oc-demo2'}">
+            <span class="name">公司简称</span>
+            <input type="text" class="txt" readonly="readonly" maxlength="25" id="company_name" placeholder="填写公司简称"/>
+          </a>
+          <i class="arrow-right"></i>
+        </li>
+        <!--<li class="list-item" id="addr">
+          <span class="name">地区</span>
+          <input type="text" class="txt" placeholder="选择地区" readonly="readonly" id="address" />
+          <i class="arrow-right"></i>
+        </li>-->
+        <li class="list-item">
+          <a href="javascript:;" data-am-offcanvas="{target: '#doc-oc-demo3'}">
+            <span class="name">职务/职称</span>
+            <input type="text" class="txt" placeholder="填写职务" readonly="readonly" id="work" maxlength="12"/>
+          </a>
+          <i class="arrow-right"></i>
+        </li>
+        <!--<li class="list-item">
+          <a href="javascript:;" data-am-offcanvas="{target: '#doc-oc-demo4'}">
+            <span class="name">微信号</span>
+            <input type="text" class="txt" placeholder="填写微信号" readonly="readonly" id="wx_name" />
+          </a>
+          <i class="arrow-right"></i>
+        </li>-->
+      </ul>
+      <div class="agreement">
+        <span class="check active"></span><span class="readed">我已阅读并同意</span>
+        <a href="initiation-agreement.html" class="word">《投行365星级会员入会协议》</a>
+      </div>
+      <div class="submit" id="submit">提交</div>
+    </div>
+    <!--提交审核弹窗-->
+    <div class="am-modal am-modal-alert" tabindex="-1" id="my-alert">
+      <div class="am-modal-dialog">
+        <div class="am-modal-hd alert-title">提交成功</div>
+        <div class="am-modal-bd alert-txt">
+          您的注册申请已提交成功</br>我们将会在24小时内进行资格审核
+        </div>
+        <div class="am-modal-footer">
+          <span class="am-modal-btn alert-btn">确定</span>
+        </div>
+      </div>
+    </div>
+    <!-- 侧边栏内容 -->
+    <!--业务专长-->
+    <div id="doc-oc-demo1" class="am-offcanvas">
+      <div class="am-offcanvas-bar am-offcanvas-bar-flip" id="offcanvas-bar">
+        <div class="am-offcanvas-content">
+          <header data-am-widget="header" class="am-header header">
+            <a href="javascript:;" class="arrow-left"></a>
+            <h1 class="am-header-title">业务专长</h1>
+          </header>
+          <div class="be-container">
+            <div class="word">
+              <textarea name="" rows="5" cols="" class="txt" placeholder="填写您的专长，多个可用英文“/”隔开" id="Expertise" maxlength="300"></textarea>
+            </div>
+            <div class="submit">保存 </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--公司简称-->
+    <div id="doc-oc-demo2" class="am-offcanvas">
+      <div class="am-offcanvas-bar am-offcanvas-bar-flip" id="offcanvas-bar">
+        <div class="am-offcanvas-content">
+          <header data-am-widget="header" class="am-header header">
+            <a href="javascript:;" class="arrow-left"></a>
+            <h1 class="am-header-title">公司简称</h1>
+          </header>
+          <div class="be-container">
+            <div class="word">
+              <textarea name="" rows="1" cols="" class="txt" placeholder="最多8个字" maxlength="25" id="Company_name"></textarea>
+            </div>
+            <div class="submit">保存 </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--职务/职称-->
+    <div id="doc-oc-demo3" class="am-offcanvas">
+      <div class="am-offcanvas-bar am-offcanvas-bar-flip" id="offcanvas-bar">
+        <div class="am-offcanvas-content">
+          <header data-am-widget="header" class="am-header header">
+            <a href="javascript:;" class="arrow-left"></a>
+            <h1 class="am-header-title">职位/职称</h1>
+          </header>
+          <div class="be-container">
+            <div class="word">
+              <textarea name="" rows="1" cols="" class="txt" placeholder="请输入您的职位/职称" id="Capacity" maxlength="12"></textarea>
+            </div>
+            <div class="submit">保存 </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--微信号-->
+    <div id="doc-oc-demo4" class="am-offcanvas">
+      <div class="am-offcanvas-bar am-offcanvas-bar-flip" id="offcanvas-bar">
+        <div class="am-offcanvas-content">
+          <header data-am-widget="header" class="am-header header">
+            <a href="javascript:;" class="arrow-left"></a>
+            <h1 class="am-header-title">绑定微信号</h1>
+          </header>
+          <div class="be-container">
+            <div class="word">
+              <textarea name="" rows="1" cols="" class="txt" placeholder="输入您的微信号" id="Wx_number"></textarea>
+            </div>
+            <div class="submit">保存 </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script type="text/javascript" src="../assets/js/jquery.min.js"></script>
+  <script type="text/javascript" src="../assets/js/amazeui.min.js"></script>
+  <script type="text/javascript" src="../assets/js/exif.min.js"></script>
+  <script type="text/javascript" src="../assets/js/picker.min.js"></script>
+  <script type="text/javascript" src="../assets/js/common.js"></script>
+
+  <script>
+    var username = GetQueryString('username');
+    var pwd = GetQueryString('pwd');
+    var temp_token = GetQueryString('temp_token');
+    var invited_code = GetQueryString('invited_code');
+    var openid = getInfo('openid');
+    //上传头像
+    $('.upload_img').on('change', function(e) {
+      if(!window.FileReader) return;
+      e.stopPropagation();
+      e.preventDefault();
+      var file = e.target.files[0];
+      var file_extension = file.name.split('.').splice(-1)[0]; //获取文件后缀
+      var content = '';
+      if(!file.type.match('image.*')) {
+        alert('文件' + f.name + '不是图片')
+        return;
+      }
+      var orientation;
+      //EXIF js 可以读取图片的元信息 https://github.com/exif-js/exif-js
+      EXIF.getData(file, function() {
+        orientation = EXIF.getTag(this, 'Orientation');
+      });
+
+      var reader = new FileReader();
+
+      reader.onload = function(e) {
+        getImgData(this.result, orientation, function(base_file) {
+          var params = {
+            token: '',
+            keytype: 1,
+            file_extension: file_extension,
+            title: '',
+            base_file: base_file
+          };
+          postAjax(reqUrl('file_upload'), params, false, function(data) {
+            if(data.success) {
+              content = ' <img width="50" height="50" src="' + data.infor[0].imgurl + '">';
+              $('.avatar').find('img').replaceWith(content);
+            } else {
+              mask(data.msg);
+            }
+          })
+        });
+      }
+      reader.readAsDataURL(file);
+    });
+
+    //获取城市列表
+    var city = [];
+    postAjax(reqUrl('district_list'), '', false, function(data) {
+      city = data.infor.listItems;
+    })
+
+    //获取地址
+    var cityId = [];
+    var nameEl = document.getElementById('addr');
+    var addr = document.getElementById('address');
+    var address = "";
+    var first = []; /* 省，直辖市 */
+    var second = []; /* 市 */
+    var checked = [0, 0, 0]; /* 已选选项 */
+    function creatList(obj, list) {
+      obj.forEach(function(item, index, arr) {
+        var temp = new Object();
+        temp.text = item.name;
+        temp.value = item.id;
+        list.push(temp);
+      })
+    };
+    creatList(city, first); // 省
+
+    if(city[0].hasOwnProperty('children')) {
+      creatList(city[0].children, second); //市
+    } else {
+      second = [{
+        text: '',
+        value: 0
+      }];
+    }
+
+    var picker = new Picker({
+      data: [first, second],
+      selectedIndex: [0, 0],
+      title: ''
+    });
+
+    picker.on('picker.select', function(selectedVal, selectedIndex) {
+      var text1 = first[selectedIndex[0]].text;
+      var text2 = second[selectedIndex[1]].text;
+      addr.value = text1 + ' ' + text2;
+    });
+
+    picker.on('picker.change', function(index, selectedIndex) {
+      if(index === 0) {
+        firstChange();
+      };
+
+      function firstChange() {
+        second = [];
+        third = [];
+        checked[0] = selectedIndex;
+        var firstCity = city[selectedIndex];
+        if(firstCity.hasOwnProperty('children')) {
+          creatList(firstCity.children, second);
+
+          var secondCity = city[selectedIndex].children[0]
+        } else {
+          second = [{
+            text: '',
+            value: 0
+          }];
+          checked[1] = 0;
+          checked[2] = 0;
+        }
+
+        picker.refillColumn(1, second);
+        picker.scrollColumn(1, 0)
+      }
+    });
+
+    picker.on('picker.valuechange', function(selectedVal, selectedIndex) {
+      cityId = selectedVal;
+    });
+//  nameEl.addEventListener('click', function() {
+//    picker.show();
+//  });
+
+    //上传名片
+    /* el:上传图片的元素
+      keytype:上传图片类型
+      El:上传图片父元素
+     */
+
+    uploadImg($('.cart_img1'), 2, $('.upload li:eq(0)')); //上传名片A面
+//  uploadImg($('.cart_img2'), 3, $('.upload li:eq(1)')); //上传名片B面
+
+    function uploadImg(el, keytype, El) {
+      el.on('change', function(e) {
+        if(!window.FileReader) return;
+        e.stopPropagation();
+        e.preventDefault();
+        var file = e.target.files[0];
+        var file_extension = file.name.split('.').splice(-1)[0]; //获取文件后缀
+        var content = '';
+        if(!file.type.match('image.*')) {
+          alert('文件' + f.name + '不是图片')
+          return;
+        }
+        var orientation;
+        //EXIF js 可以读取图片的元信息 https://github.com/exif-js/exif-js
+        EXIF.getData(file, function() {
+          orientation = EXIF.getTag(this, 'Orientation');
+        });
+
+        var reader = new FileReader();
+
+        reader.onload = function(e) {
+          getImgData(this.result, orientation, function(base_file) {
+            var params = {
+              token: '',
+              keytype: keytype,
+              file_extension: file_extension,
+              title: '',
+              base_file: base_file
+            };
+            postAjax(reqUrl('file_upload'), params, false, function(data) {
+              if(data.success) {
+                content = ' <img width="109" height="60" src="' + data.infor[0].imgurl + '">';
+                El.find('img').replaceWith(content);
+              } else {
+                mask(data.msg);
+              }
+            })
+          });
+        }
+        reader.readAsDataURL(file);
+      });
+    }
+
+    //选中阅读状态
+    $('.check').on('click', function() {
+      $(this).toggleClass('active');
+    });
+
+    solveAutoClose($('#doc-oc-demo1'));
+    solveAutoClose($('#doc-oc-demo2'));
+    solveAutoClose($('#doc-oc-demo3'));
+    solveAutoClose($('#doc-oc-demo4'));
+
+    saveTxt($('#doc-oc-demo1'), $('#Expertise'), $('#expertise'));
+    closeSideBar($('#doc-oc-demo1'));
+    saveTxt($('#doc-oc-demo2'), $('#Company_name'), $('#company_name'));
+    closeSideBar($('#doc-oc-demo2'));
+    saveTxt($('#doc-oc-demo3'), $('#Capacity'), $('#work'));
+    closeSideBar($('#doc-oc-demo3'));
+    saveTxt($('#doc-oc-demo4'), $('#Wx_number'), $('#wx_name'));
+    closeSideBar($('#doc-oc-demo4'));
+
+    //解决移动设备上offcavas组件中存在键盘输入时时，也会存在自动关闭的现象。
+    function solveAutoClose(el) {
+      el.on('open.offcanvas.amui', function() {
+        $(window).off('resize.offcanvas.amui orientationchange.offcanvas.amui');
+      });
+    }
+    /*
+     Parent:侧边栏元素
+     Children:侧边栏输入框
+     target:输入内容目标元素
+    */
+    function saveTxt(Parent, Children, target) {
+      Parent.find('.submit').on('click', function() {
+        Parent.offCanvas('close');
+        var content = Children.val();
+        target.val(content);
+      });
+    }
+
+    //关闭侧边栏
+    function closeSideBar(el) {
+      el.find('.arrow-left').on('click', function() {
+        el.offCanvas('close');
+      });
+    }
+
+    //点击注册
+    $('#submit').click(function() {
+      var avatar_img = $('.avatar').find('img').attr('src');
+      var cart_img1 = $('.upload li:eq(0)').find('img').attr('src');
+//    var cart_img2 = $('.upload li:eq(1)').find('img').attr('src');
+      var name = $('#name').val();
+      var expertise = $('#expertise').val();
+      var company_name = $('#company_name').val();
+      var work = $('#work').val();
+      var wx_name = $('#wx_name').val();
+      if(avatar_img == "../assets/i/default-avatar.png") {
+        mask('请上传头像');
+        return false;
+      }
+      if(name == "") {
+        mask('请输入姓名');
+        return false;
+      }
+      if(cart_img1 == '../assets/i/img-add.png') {
+        mask('请上传名片正面');
+        return false;
+      }
+      if(expertise == '') {
+        mask('请填写业务专长');
+        return false;
+      }
+      
+//    if(cart_img2 == '../assets/i/img-add.png') {
+//      mask('请上传名片反面');
+//      return false;
+//    }
+      
+      var params = {
+        temp_token: temp_token,
+        username: name,
+        mobile: username,
+        password: pwd,
+        invite_code: invited_code,
+        avatar: avatar_img,
+        card_A: cart_img1,
+        card_B: '',
+        be_good: expertise,
+        company: company_name,
+        province: cityId[0],
+        city: cityId[1],
+        job: work,
+        wx_name: wx_name,
+        openid:openid
+      }
+      
+      if($('.check').hasClass('active')) {
+        //注册
+        postAjax(reqUrl('client_add'), params, false, function(data) {
+          if(data.error_code == 200){
+           mask('您的操作已超时，请重新注册')
+          }
+          else if(data.success) {
+            $('#my-alert').modal();
+            setTimeout(function(){
+              window.location.href = preUrl('log/login.html');
+            },2000)
+          } else {
+            mask(data.msg);
+          }
+        })
+      }else{
+        mask('您还未同意《投行365星级会员入会协议》');
+      }
+    })
+  </script>
+
+</html>

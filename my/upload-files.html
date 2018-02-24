@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>投行365</title>
+    <link rel="stylesheet" href="../assets/css/amazeui.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+  </head>
+
+  <body>
+    <header data-am-widget="header" class="am-header header">
+      <a href="javascript:history.back()" class="arrow-left"></a>
+      <h1 class="am-header-title">文件上传</h1>
+    </header>
+    <div class="uf-container">
+      <div class="title">
+        <input type="text" class="name" placeholder="请填写文件标题" />
+        <div class="file"></div>
+      </div>
+      <div class="upload-file">
+        选择文件
+        <input type="file" name="file" id="File" class="upload" />
+        <img src="" alt="" id="Img" />
+      </div>
+
+      <div class="tip">
+        温馨提示：</br>
+        如您发送文件过大，您也可以通过邮箱发送接收 邮箱：<span class="email"></span>（文件支持：word文档、excel表格、JPG图片、PDF)
+      </div>
+    </div>
+  </body>
+  <script type="text/javascript" src="../assets/js/jquery.min.js"></script>
+  <script type="text/javascript" src="../assets/js/amazeui.min.js"></script>
+  <script type="text/javascript" src="../assets/js/picker.min.js"></script>
+  <script type="text/javascript" src="../assets/js/common.js"></script>
+
+  <script>
+    var token = getCookie('token');
+    document.getElementById("File").addEventListener("change", readFile, false);
+
+    function readFile() {
+      var title = $('.name').val();
+      if(title == "") {
+        mask('请填写文件标题');
+        return false;
+      }
+      var file = this.files[0]; //input 
+      var file_extension = file.name.split('.').splice(-1)[0];
+      if(file.size > 0.5 * 1024 * 1024) { //用size属性判断文件大小不能超过5M 
+        mask("你上传的文件太大了！");
+      } else {
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function(e) {
+          var res = this.result;
+          var params = {
+            token: token,
+            keytype: 4,
+            file_extension: file_extension,
+            title: title,
+            base_file: res
+          };
+          postAjax(reqUrl('file_upload'), params, false, function(data) {
+            if(data.success) {
+              mask('上传成功');
+              setTimeout(function() {
+                window.location.href = preUrl('my/send-word.html');
+              }, 2000)
+            } else {
+              mask(data.msg);
+            }
+          })
+        }
+      }
+    }
+
+    //获取邮箱地址
+    postAjax(reqUrl('get_basic'), {
+      parm: 'email'
+    }, false, function(data) {
+      if(data.success) {
+        var email = data.infor[0].value;
+        $('.email').html(email)
+      } else {
+        mask(data.msg);
+      }
+    });
+  </script>
+
+</html>

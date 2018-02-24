@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html style="height:100%">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>投行365</title>
+    <link rel="stylesheet" href="../assets/css/amazeui.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+  </head>
+
+  <body style="height:100%">
+    <header data-am-widget="header" class="am-header header">
+      <a href="javascript:history.back()" class="arrow-left"></a>
+      <h1 class="am-header-title">文件说明</h1>
+    </header>
+      <iframe src="" width="100%" height="100%" id="iframe"></iframe>
+  </body>
+  <script type="text/javascript" src="../assets/js/jquery.min.js"></script>
+  <script type="text/javascript" src="../assets/js/amazeui.min.js"></script>
+  <script type="text/javascript" src="../assets/js/picker.min.js"></script>
+  <script type="text/javascript" src="../assets/js/common.js"></script>
+
+  <script>
+    $(function(){
+      iframe($('#iframe'),'file_content')
+    })
+  </script>
+
+</html>

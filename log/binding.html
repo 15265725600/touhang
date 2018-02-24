@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>投行365</title>
+    <link rel="stylesheet" href="../assets/css/amazeui.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+  </head>
+
+  <body>
+    <div class="log-container">
+      <div class="stick">
+        <div class="stick-wrapper">
+          <div class="wrapper-main reg-main">
+            <div class="log-top">
+              <div class="log-header">
+                <a href="javascript:history.back()" class="arrow-left"></a>
+                <h5 class="title">绑定手机号</h5>
+              </div>
+              <div class="logo"><img src="../assets/i/logo.png" /></div>
+              <div class="name"></div>
+            </div>
+            <div class="log-center">
+              <div class="center-item"><input type="text" name="phone" id="phone" placeholder="请输入手机号" readonly="readonly"/></div>
+              <div class="center-item"><input type="text" name="code" id="code" placeholder="请输入验证码" />
+                <a href="javascript:;" class="get-code" id="get-code" data="0">获取验证码</a>
+              </div>
+              <div class="next">
+                <a href="javascript:;" class="item-href">绑定手机号</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </body>
+  <script src="../assets/js/jquery.min.js"></script>
+  <script src="../assets/js/amazeui.min.js"></script>
+  <script src="../assets/js/common.js"></script>
+  <script>
+    $(function() {
+      var invited_code = GetQueryString('invited_code'); //需要在邀请链接获取
+      var openid = getInfo('openid');
+       var phone = GetQueryString('phone'); 
+      $('#phone').val(phone);
+      //手机发送短信验证码
+      $('#get-code').on('click', function() {
+        var data = $(this).attr('data');
+        var username = $('#phone').val();
+        var reg = /^[1][34578][0-9]{9}$/;
+        if(!reg.test(username)) {
+          mask('您输入的手机号格式不正确');
+          return false;
+        }
+        var params = {
+          username: username
+        };
+        if(username && data == 0) {
+          //发送验证码
+          postAjax(reqUrl('code_get'), params, false, function(data) {
+            if(data.success) {
+              mask('验证码已发送到您的手机上，请注意查收');
+              var time = 60;
+
+              function timeCountDown() {
+                if(time == 0) {
+                  clearInterval(timer);
+                  $('.get-code').html("发送验证码");
+                  $('.get-code').attr('data', '0');
+                  return true;
+                }
+                $('.get-code').html("(<i>" + time + "</i>s)后重新发送");
+
+                time--;
+                $('.get-code').attr('data', '1');
+                return false;
+              }
+              timeCountDown();
+              var timer = setInterval(timeCountDown, 1000);
+            } else {
+              mask(data.msg);
+              return;
+            }
+          });
+        }
+      });
+      //点击下一步
+      $('.item-href').click(function() {
+        var username = $('#phone').val();
+        var reg = /^[A-Za-z0-9]{6,}$/;
+        var code = $('#code').val();
+        if(code == "") {
+          mask('请输入验证码');
+          return false;
+        }
+        var params = {
+          username: username,
+          code: code
+        }
+        var params1 = {
+          mobile: username,
+          openid: openid
+        }
+        //验证验证码
+        postAjax(reqUrl('code_verify'), params, false, function(data) {
+          if(data.success) {
+            var temp_token = data.infor[0].temp_token;
+            postAjax(reqUrl('wx_bind'), params1, false, function(data){
+              if(data.success){
+                setCookie('token',data.infor[0].token);
+                window.location.href = preUrl('find-expert/index.html');
+              }
+            })
+          } else {
+            mask(data.msg);
+          }
+        })
+
+      })
+
+    });
+  </script>
+
+</html>

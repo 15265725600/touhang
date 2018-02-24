@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>投行365</title>
+    <link rel="stylesheet" href="../assets/css/amazeui.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+  </head>
+
+  <body>
+     <header>
+       <a href="" class="back"></a>
+       <ul class="tab">
+         <li class="list-item active">音频</li>
+         <li class="list-item">视频</li>
+       </ul>
+       <span class="collect"></span>
+     </header>
+     <div class="container">
+       <div class="tab0 content">
+         <div class="top">
+           <div class="title">认识自己，认识疾病1</div>
+           <div class="desc">
+             <div class="left">
+               抗癌健身大家学
+             </div>
+             <div class="right">健康你我，美丽中国</div>
+           </div>
+           <div class="video">
+             <div class="top_img">
+               <img src="../assets/i/avatar.png" alt="" width="128" height="128"/>
+               <span class="play_btn"></span>
+             </div>
+             <div class="time">
+               <div class="time_top">
+                 <span class="start_time">05:20</span>
+                 <span class="end_time">25:20</span>
+               </div>
+               <div class="speed">
+                 <img src="../assets/i/images/images/images/speed_03.jpg" alt="" />
+               </div>
+             </div>
+             <div class="play">
+               <img src="../assets/i/images/images/play_03.jpg" alt="" />
+             </div>
+           </div>
+         </div>
+         <div class="bottom">
+           <div class="name">简单介绍</div>
+           <div class="con">实时数据你电脑冯老师那地方辅导费所多多多多多多多多</div>
+         </div>
+       </div>
+       <div class="tab1 content">
+         <div class="top">
+           <div class="title">认识自己，认识疾病</div>
+           <div class="desc">
+             <div class="left">
+               抗癌健身大家学
+             </div>
+             <div class="right">健康你我，美丽中国</div>
+           </div>
+           <div class="video">
+             <div class="top_img">
+               <img src="../assets/i/avatar.png" alt="" width="128" height="128"/>
+               <span class="play_btn"></span>
+             </div>
+             <div class="time">
+               <div class="time_top">
+                 <span class="start_time">05:20</span>
+                 <span class="end_time">25:20</span>
+               </div>
+               <div class="speed">
+                 <img src="../assets/i/images/images/images/speed_03.jpg" alt="" />
+               </div>
+             </div>
+             <div class="play">
+               <img src="../assets/i/images/images/play_03.jpg" alt="" />
+             </div>
+           </div>
+         </div>
+         <div class="bottom">
+           <div class="name">简单介绍</div>
+           <div class="con">实时数据你电脑冯老师那地方辅导费所多多多多多多多多</div>
+         </div>
+       </div>
+     </div>
+
+  </body>
+  <script src="../assets/js/jquery.min.js"></script>
+  <script src="../assets/js/amazeui.min.js"></script>
+  <script>
+    $(function() {
+      $('.tab li').click(function(){
+        var index = $(this).index();
+        $(this).addClass('active').siblings().removeClass('active')
+        $('.container>div').eq(index).show().siblings().hide();
+      })
+    });
+  </script>
+
+</html>

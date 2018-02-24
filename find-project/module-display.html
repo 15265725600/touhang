@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>投行365</title>
+    <link rel="stylesheet" href="../assets/css/amazeui.min.css">
+    <link rel="stylesheet" href="../assets/css/swiper.min.css" />
+    <link rel="stylesheet" href="../assets/css/style.css">
+  </head>
+
+  <body>
+    <header data-am-widget="header" class="am-header header">
+      <a href="javascript:history.back()" class="arrow-left"></a>
+      <h1 class="am-header-title">投行365</h1>
+    </header>
+    <div class="index-container">
+      <!--顶部部分-->
+      <div class="index-top am-cf">
+        <div class="grade" id="grade">选星级</div>
+        <div class="search md-search">
+          <a href="javascript:;"><input type="text" class="searcher" placeholder="请输入企业家姓氏、职务、公司"/></a>
+        </div>
+        <ul class="star-wrapper">
+          <script type="text/html" id="template">
+            {{each listItems as item index}}
+            <li class="list-item" data="{{item.id}}">{{item.name}}</li>
+            {{/each}}
+          </script>
+        </ul>
+      </div>
+      <!---->
+      <div class="recommend">
+        <div class="re-name">365投融企业家</div>
+        <ul class="re-wrapper am-cf">
+          <script type="text/html" id="recommend_wrapper">
+            {{each listItems as item index}}
+            <li class="list-item">
+              <a href="module-details.html?id={{item.id}}">
+                <img src="{{item.avatar}}" alt="" width="68" height="68" />
+                <div class="name">{{item.username.substr(0, 1)}}**</div>
+                <!--<div class="industy">项目推荐人</div>-->
+                <div class="position">{{item.job}}</div>
+                <div class="company">{{item.company}}</div>
+              </a>
+            </li>
+            {{/each}}
+          </script>
+        </ul>
+      </div>
+    </div>
+    <!--footer-->
+    <footer class="am-cf">
+      <div data-am-widget="navbar" class="am-navbar am-cf" id="">
+        <ul class="am-navbar-nav am-cf am-avg-sm-4 foot-wrapper">
+          <li class="foot_item">
+            <a href="../find-expert/index.html">
+              <i class="expert"></i>
+              <span class="active">找行家</span>
+            </a>
+          </li>
+          <li class="foot_item">
+            <a href="javascript:;" class="">
+              <i class="specialist active"></i>
+              <span class="">找专家</span>
+            </a>
+          </li>
+          <li class="foot_item">
+            <a href="../find-project/index.html" class="">
+              <i class="project"></i>
+              <span class="">找项目</span>
+            </a>
+          </li>
+          <li class="foot_item">
+            <a href="../my/my.html" class="">
+              <i class="my"></i>
+              <span class="">我的</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </footer>
+
+  </body>
+  <script src="../assets/js/jquery.min.js"></script>
+  <script src="../assets/js/amazeui.min.js"></script>
+  <script src="../assets/js/dropload.min.js" ></script>
+  <script src="../assets/js/template.js"></script>
+  <script src="../assets/js/common.js"></script>
+  <script>
+    $(function() {
+      var catagory = getUrlParam('catagory');
+      $('.am-header-title').html(catagory);
+      var keyword = "";
+      var star_id = "";
+      //选择星级
+      $('#grade').click(function() {
+        $('.star-wrapper').fadeToggle();
+      });
+
+      //获取星级列表
+      postAjax(reqUrl('get_star_list'), "", false, function(data) {
+        var html = template('template', data.infor);
+        $('.star-wrapper').html(html);
+        $('.star-wrapper li').on('click', function() {
+          var txt = $(this).text();
+          var star_id = $(this).attr('data');
+          $('#grade').html(txt);
+          $(this).parent().fadeOut(300);
+          $('.dropload-down').remove();
+          $('.re-wrapper').html('');
+          getExpret(3, 1, catagory, star_id, keyword);
+
+        });
+      });
+ 
+      getExpret(3, 1, catagory, star_id, keyword);
+      //搜索
+      $('.searcher').on('keypress',function(e){
+        var keycode = e.keyCode;
+        if(keycode == '13'){
+          e.preventDefault();
+          keyword = $(this).val();
+          $('.dropload-down').remove();
+          $('.re-wrapper').html('')
+          getExpret(3, 1, catagory, star_id, keyword);
+        }
+      })
+      /*
+       * flag: 1推荐 2搜索
+       * category: 分类名
+       * starID: 星级ID
+       * keyword: 搜索关键词
+       * page： 分页
+       */
+      function getExpret(keytype, flag, category, starID, keyword) {
+        var page = 0;
+        $dropload = $('.recommend').dropload({
+          scrollArea: window,
+          threshold: 50,
+          domDown: {
+            domNoData: '<div class="dropload-noData">没有更多</div>'
+          },
+          loadDownFn: function(me) {
+            postAjax(reqUrl('get_client_list'), {
+              keytype: keytype,
+              flag: flag,
+              category_name: category,
+              star_id: starID,
+              keyword: keyword,
+              page: page
+            }, false, function(data) {
+              if(data.error_code == 200) {
+                window.location.href = preUrl('log/login.html?path=find-expert/index.html');
+              } else if(data.success) {
+                page++;
+                var html = '';
+                if(data.infor.listItems != null) {
+                  var arrLen = data.infor.listItems.length;
+                }
+                if(arrLen > 0) {
+                  //预编译模板
+                  html = template('recommend_wrapper', data.infor);
+
+                } else {
+                  // 锁定
+                  me.lock();
+                  // 无数据
+                  me.noData();
+                }
+                $('.re-wrapper').append(html);
+                var len = $('.re-wrapper li').length;
+                for(var i = 0;i<len;i++){
+                  var company = $('.re-wrapper li').eq(i).children('a').children('.company');
+                  if(company.html().length > 8){
+                    $('.re-wrapper li').eq(i).children('a').children('.company').html(company.html().slice(0,8) + "...")
+                  }
+                }
+                me.resetload();
+              } else {
+                mask(data.msg);
+              }
+            });
+          }
+        });
+      }
+
+    });
+  </script>
+
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html class="height">
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>投行365</title>
+    <link rel="stylesheet" href="../assets/css/amazeui.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+  </head>
+
+  <body class="height">
+    <div class="log-container">
+      <div class="stick">
+        <div class="stick-wrapper">
+          <div class="wrapper-main">
+            <div class="log-top">
+              <div class="log-header">
+                <span class="arrow-left"></span>
+                <h5 class="title">登录</h5>
+              </div>
+              <div class="logo"><img src="../assets/i/logo.png" /></div>
+              <div class="name"></div>
+            </div>
+            <div class="log-center">
+              <div class="center-item"><input type="text" name="phone" id="phone" placeholder="请输入手机号" /></div>
+              <div class="center-item"><input type="password" name="code" id="code" placeholder="请输入密码" /></div>
+              <div class="code-make clearfix">
+                <div class="left"><span class="check"></span><span class="remember">记住密码</span></div>
+                <div class="right am-fr">
+                  <a href="forget-password.html" class="forget-code">忘记密码？</a>
+                </div>
+              </div>
+              <div class="login">登录</div>
+              <div class="register">
+                <a href="register.html" class="item-href">注册</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="wrapper-bottom">
+          <a href="http://www.zhongguoth365.com/plugins/WxLogin/login.php"><img src="../assets/i/weixin.png" alt="" width="50" height="50" /></a>
+          <div class="title">第三方登录</div>
+          
+        </div>
+      </div>
+    </div>
+
+  </body>
+  <script src="../assets/js/jquery.min.js"></script>
+  <script src="../assets/js/amazeui.min.js"></script>
+  <script type="text/javascript" src="../assets/js/common.js"></script>
+  <script>
+    $(function() {
+      var strName = localStorage.getItem('keyName');
+      var strPass = localStorage.getItem('keyPass');
+      if(strName) {
+        $('#phone').val(strName);
+      }
+      if(strPass) {
+        $('#code').val(strPass);
+        $('.check').addClass('active')
+      }
+      $('.check').on('click', function() {
+        $(this).toggleClass('active');
+        var strName = $('#phone').val();
+        var strPass = $('#code').val();
+        localStorage.setItem('keyName', strName);
+        if($(this).hasClass('active')) {
+          localStorage.setItem('keyPass', strPass)
+        } else {
+          localStorage.removeItem('keyPass');
+        }
+      });
+
+      var para = window.location.search;
+      if(para != '') {
+        var index = para.indexOf('&path');
+        var subPara = para.substring(0, index);
+        var path = GetQueryString('path') + subPara;
+      }
+      //登录
+      $('.login').click(function() {
+        var username = $('#phone').val();
+        var pwd = $('#code').val();
+        var reg = /^[1][34578][0-9]{9}$/;
+        if(username == "") {
+          mask('请输入手机号');
+          return false;
+        }
+
+        if(!reg.test(username)) {
+          mask('您输入手机号的手机号格式不正确');
+          return false;
+        }
+        if(pwd == "") {
+          mask('请输入密码');
+          return false;
+        }
+
+        var params = {
+          username: username,
+          password: pwd
+        }
+        postAjax(reqUrl('client_login'), params, false, function(data) {
+          if(data.success) {
+            setCookie("token", data.infor[0].token, 365);
+            if(path) {
+              window.location.href = preUrl(path);
+            } else {
+              localStorage.setItem('keyName', username);
+              if($('.check').hasClass('active')) {
+                localStorage.setItem('keyPass', pwd)
+              } else {
+                localStorage.removeItem('keyPass');
+              }
+              window.location.href = preUrl('find-expert/index.html');
+            }
+          } else {
+            mask(data.msg);
+          }
+        })
+      })
+
+    });
+  </script>
+
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html class="height">
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>投行365</title>
+    <link rel="stylesheet" href="../assets/css/amazeui.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+  </head>
+
+  <body class="height">
+    <header data-am-widget="header" class="am-header header">
+      <a href="javascript:history.back()" class="arrow-left"></a>
+      <h1 class="am-header-title">搜索</h1>
+    </header>
+    <div class="se-container">
+      <div class="se-top">
+        <div class="search-con">
+          <input type="text" class="search" value="" id="keyword"/>
+          <a href="javascript:;" class="searchd"></a>
+        </div>
+        <span class="delete">取消</span>
+      </div>
+      <!--历史搜索-->
+      <div class="his-wrapper se-wrapper">
+        <div class="title">历史搜索<span class="del"></span></div>
+        <ul class="se-list" id="his-list">
+          <!--<li class="list-item">aaa</li>
+          <li class="list-item">bbb</li>-->
+        </ul>
+      </div>
+      <!--热门搜索-->
+      <div class="his-wrapper se-wrapper">
+        <div class="title">热门搜索</div>
+        <ul class="se-list" id="hot-list">
+          <script type="text/html" id="template">
+            {{each infor as item index}}
+            <li class="list-item">{{item}}</li>
+            {{/each}}
+          </script>
+        </ul>
+      </div>
+    </div>
+
+  </body>
+  
+  <script src="../assets/js/jquery.min.js"></script>
+  <script src="../assets/js/amazeui.min.js"></script>
+  <script src="../assets/js/template.js"></script>
+  <script src="../assets/js/common.js"></script>
+  <script>$(function() {
+  var type = GetQueryString('type');
+  //获取热门搜索列表
+  postAjax(reqUrl('get_search_list'), "", false, function(data) {
+    var html = template('template', data);
+    $('#hot-list').html(html);
+  });
+
+  $(document).delegate("#his-list>li", "click", function() {
+    $(".search").val($(this).text());
+  });
+  $(document).delegate("#hot-list>li", "click", function() {
+    $(".search").val($(this).text());
+  });
+  $('.delete').click(function() {
+    $(".search").focus().val('');
+  })
+  var hisTime; //从localStorage里获取搜索时间的数组
+  var hisItem; //从localStorage里获取搜索内容的数组
+  var firstKey; //从localStorage获取最早的1个搜索时间
+  function init() {
+    hisTime = [];
+    hisItem = [];
+    var i = 0;
+    for(; i < localStorage.length; i++) {
+      if(!isNaN(localStorage.key(i))) {
+        hisTime.push(localStorage.key(i));
+      }
+    }
+    //    取到的是历史记录如果不是空格，先取再存到数组里
+    if(hisTime.length > 0) {
+      hisTime.sort();
+      for(var y = hisTime.length - 1; y > 0; y--) {
+        localStorage.getItem(hisTime[y]).trim() && hisItem.push(localStorage.getItem(hisTime[y]));
+      }
+    }
+    i = 0;
+    //执行init(),每次清空之前添加的节点
+    $("#his-list").html("");
+    for(; i < hisItem.length; i++) {
+      //alert(hisItem);
+      $("#his-list").prepend('<li class="list-item">' + hisItem[i] + '</li>')
+    }
+  }
+  init();
+
+  //搜索
+  $('.searchd').on('click', function() {
+    var keyword = $('.search').val();
+    var value = $('.search').val();
+    var time = (new Date()).getTime();
+    if(!value) {
+      return false;
+    }
+    //输入的内容localStorage有记录
+    if($.inArray(value, hisItem) >= 0) {
+      for(var j = 0; j < localStorage.length; j++) {
+        if(value == localStorage.getItem(localStorage.key(j))) {
+          localStorage.removeItem(localStorage.key(j));
+        }
+      }
+      localStorage.setItem(time, value);
+    }
+    //输入的内容localStorage没有记录
+    else {
+      //由于限制了只能有4条记录，所以这里进行判断
+      if(hisItem.length > 3) {
+        firstKey = hisTime[0]
+        localStorage.removeItem(firstKey);
+        localStorage.setItem(time, value);
+      } else {
+        localStorage.setItem(time, value)
+      }
+    }
+    init();
+
+    window.location.href = preUrl('find-expert/search-result.html?keyword=' + keyword + '&keytype=' + type + '')
+  });
+
+  $("#keyword").on('keypress', function(e) {
+    var keycode = e.keyCode;
+
+    if(keycode == '13') {
+      e.preventDefault();
+      //请求搜索接口   
+      var keyword = $('.search').val();
+      var value = $('.search').val();
+      var time = (new Date()).getTime();
+      if(!value) {
+        return false;
+      }
+      //输入的内容localStorage有记录
+      if($.inArray(value, hisItem) >= 0) {
+        for(var j = 0; j < localStorage.length; j++) {
+          if(value == localStorage.getItem(localStorage.key(j))) {
+            localStorage.removeItem(localStorage.key(j));
+          }
+        }
+        localStorage.setItem(time, value);
+      }
+      //输入的内容localStorage没有记录
+      else {
+        //由于限制了只能有4条记录，所以这里进行判断
+        if(hisItem.length > 3) {
+          firstKey = hisTime[0]
+          localStorage.removeItem(firstKey);
+          localStorage.setItem(time, value);
+        } else {
+          localStorage.setItem(time, value)
+        }
+      }
+      init();
+
+      window.location.href = preUrl('find-expert/search-result.html?keyword=' + keyword + '&keytype=' + type + '')
+    }
+  });
+
+  //清除记录功能
+  $(".del").click(function() {
+    var f = 0;
+    for(; f < hisTime.length; f++) {
+      localStorage.removeItem(hisTime[f]);
+    }
+    init();
+    window.location.reload();
+  });
+
+})</script>
+
+</html>
